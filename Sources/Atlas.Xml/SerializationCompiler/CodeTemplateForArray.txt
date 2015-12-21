@@ -1,0 +1,70 @@
+﻿using System;
+using Atlas.Xml;
+using System.Xml;
+using System.Collections.Generic;
+
+namespace Atlas.Xml.SerializationCompiler.Dynamic
+{
+    public class {className} : IXmlSerializer<{typeName}>
+    {
+
+{classLevelCodePart}
+		public void Serialize(XmlWriter writer, {typeName} objectInstance, SerializationOptions options)
+		{
+			foreach (var item in objectInstance)
+			{
+				writer.WriteStartElement(options.ChildElementName);
+{childWriterCode}
+                writer.WriteEndElement();
+			}
+		}
+
+		public {typeName} Deserialize(XmlReader reader, SerializationOptions options)
+		{
+			var objectInstance = new List<{childTypeName}>();
+
+			if(!reader.IsEmptyElement)
+			{
+				while (reader.Read())
+				{
+					while (reader.NodeType == XmlNodeType.Element)
+					{
+{childReaderCode}
+					}
+
+					if(reader.NodeType == XmlNodeType.EndElement)
+						break;
+				}
+			}
+
+			reader.Read();
+			return objectInstance.ToArray();
+		}
+
+		public void Deserialize(XmlReader reader, {typeName} objectInstance, SerializationOptions options)
+		{
+			throw new NotSupportedException("Array deserialization cannot be done into existing array! Use Deserialize(reader, options) instead.");
+		}
+
+		public SerializationOptions DefaultSerializationOptions 
+		{
+			get { return {serializationOptionsCode}; }
+		}
+
+		public void WriteXml(XmlWriter writer, object objectInstance, SerializationOptions options)
+		{
+			Serialize(writer, ({typeName})objectInstance, options);
+		}
+
+		public object ReadXml(XmlReader reader, SerializationOptions options)
+		{
+			return Deserialize(reader, options);
+		}
+
+		public void ReadXml(XmlReader reader, object objectInstance, SerializationOptions options)
+		{
+			Deserialize(reader, ({typeName})objectInstance, options);
+		}
+
+	}
+}

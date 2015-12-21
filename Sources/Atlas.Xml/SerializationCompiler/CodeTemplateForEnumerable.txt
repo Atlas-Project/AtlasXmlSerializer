@@ -1,0 +1,125 @@
+﻿using System;
+using Atlas.Xml;
+using System.Xml;
+
+namespace Atlas.Xml.SerializationCompiler.Dynamic
+{
+    public class {className} : IXmlSerializer<{typeName}>
+    {
+
+{classLevelCodePart}
+		public void Serialize(XmlWriter writer, {typeName} objectInstance, SerializationOptions options)
+		{
+//BEGIN: Remove If Sealed
+			var realType =  objectInstance.GetType();
+			if(realType != typeof({typeName}))
+			{
+				writer.WriteAttributeString(Serializer.TypeAttributeName, realType.GetNameForGetType());
+				SerializerFactory.GetSerializer(realType).WriteXml(writer, objectInstance, options);
+				return;
+			}
+//END: Remove If Sealed
+{writerCode}
+			foreach (var item in objectInstance)
+			{
+				writer.WriteStartElement(options.ChildElementName);
+{childWriterCode}
+				writer.WriteEndElement();
+			}
+		}
+
+		public {typeName} Deserialize(XmlReader reader, SerializationOptions options)
+		{
+//BEGIN: Remove If Sealed
+			if(reader.MoveToFirstAttribute() && reader.LocalName == Serializer.TypeAttributeName)
+			{
+				var type = CachedTypeResolver.GetType(reader.Value);
+				if(type != typeof({typeName}))
+					return ({typeName})SerializerFactory.GetSerializer(type).ReadXml(reader, options);
+
+				{abstractTypeDeserializationException}
+			}
+//END: Remove If Sealed
+
+			{abstractUnspecifiedTypeDeserializationException}
+//BEGIN: Remove If Abstract
+			var objectInstance = new {typeName}();
+			Deserialize(reader, objectInstance, options);
+
+			return objectInstance;
+//END: Remove If Abstract
+		}
+
+		public void Deserialize(XmlReader reader, {typeName} objectInstance, SerializationOptions options)
+		{
+			{keyVariablesDeclaration}
+
+			{abstractUnspecifiedTypeDeserializationException}
+//BEGIN: Remove If Abstract
+//BEGIN: Remove If No Attributes
+			if(reader.MoveToFirstAttribute())
+			{
+				do
+				{
+					switch (reader.LocalName)
+					{
+{attributeReaderCode}
+					}
+				}
+				while (reader.MoveToNextAttribute());
+
+				reader.MoveToElement();
+			}
+//END: Remove If No Attributes
+			
+			if(!reader.IsEmptyElement)
+			{
+				while (reader.Read())
+				{
+					while (reader.NodeType == XmlNodeType.Element)
+					{
+//BEGIN: Element Switch
+						switch (reader.LocalName)
+						{
+{elementReaderCode}
+							default:
+//BEGIN: Default Element Switch
+								reader.Skip();
+//END: Default Element Switch
+								break;
+						}
+//END: Element Switch
+					}
+
+					{textReaderCode}
+					if(reader.NodeType == XmlNodeType.EndElement)
+						break;
+				}
+			}
+
+			reader.Read();
+//END: Remove If Abstract
+		}
+
+		public SerializationOptions DefaultSerializationOptions 
+		{
+			get { return {serializationOptionsCode}; }
+		}
+
+		public void WriteXml(XmlWriter writer, object objectInstance, SerializationOptions options)
+		{
+			Serialize(writer, ({typeName})objectInstance, options);
+		}
+
+		public object ReadXml(XmlReader reader, SerializationOptions options)
+		{
+			return Deserialize(reader, options);
+		}
+
+		public void ReadXml(XmlReader reader, object objectInstance, SerializationOptions options)
+		{
+			Deserialize(reader, ({typeName})objectInstance, options);
+		}
+
+	}
+}
