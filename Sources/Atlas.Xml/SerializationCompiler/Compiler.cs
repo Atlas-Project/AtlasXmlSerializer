@@ -303,11 +303,11 @@ namespace Atlas.Xml.SerializationCompiler
 
                 if (replaceBlockWith == null) // Remove comments only
                 {
-                    var crLfPos = code.IndexOf("\r\n", endIndex);
-                    code = code.Remove(endIndex, crLfPos + 2 - endIndex);
+                    var lfPos = code.IndexOf("\n", endIndex);
+                    code = code.Remove(endIndex, lfPos + 1 - endIndex);
 
-                    crLfPos = code.IndexOf("\r\n", startIndex);
-                    code = code.Remove(startIndex, crLfPos + 2 - startIndex);
+                    lfPos = code.IndexOf("\n", startIndex);
+                    code = code.Remove(startIndex, lfPos + 1 - startIndex);
                 }
                 else // Replace comment block with new code
                 {
