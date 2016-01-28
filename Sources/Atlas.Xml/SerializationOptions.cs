@@ -13,7 +13,8 @@ namespace Atlas.Xml
             IsDefault = true,
             ChildElementName = XmlSerializationAttributeBase.DefaultChildElementName,
             ValueNodeName = XmlSerializationAttributeBase.DefaultChildValueNodeName,
-            KeyNodeName = XmlSerializationAttributeBase.DefaultChildKeyNodeName
+            KeyNodeName = XmlSerializationAttributeBase.DefaultChildKeyNodeName,
+            ByteArraySerializationType = ByteArraySerializationType.Base64,
         };
 
         /// <summary>
@@ -36,5 +37,9 @@ namespace Atlas.Xml
         /// </summary>
         public string KeyNodeName { get; set; }
 
+        /// <summary>
+        /// Gets or sets byte[] serialization type. Applies to byte[] members or types only.
+        /// </summary>
+        public ByteArraySerializationType ByteArraySerializationType { get; set; }
     }
 }

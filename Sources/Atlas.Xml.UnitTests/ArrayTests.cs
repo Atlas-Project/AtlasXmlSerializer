@@ -1,6 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
+using System.Xml;
 
 namespace Atlas.Xml.UnitTests
 {
@@ -134,7 +138,7 @@ namespace Atlas.Xml.UnitTests
                 null,
                 new Basic2_NameToText{Id=3, Name="Three" },
             };
-            
+
             var serialized = Serializer.Serialize(a);
             Assert.AreEqual(serialized, @"<IEnumerable _type=""Atlas.Xml.UnitTests.ArrayTests+Basic2_NameToText[], Atlas.Xml.UnitTests""><item Id=""1"">One</item><item Id=""2"">Two</item><item _type=""null"" /><item Id=""3"">Three</item></IEnumerable>");
 

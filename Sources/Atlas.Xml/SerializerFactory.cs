@@ -33,7 +33,8 @@ namespace Atlas.Xml
 
         private static ConcurrentDictionary<Type, IXmlSerializable> _serializerCache = new ConcurrentDictionary<Type, IXmlSerializable>(new Dictionary<Type, IXmlSerializable>
         {
-            { typeof(object), new ObjectSerializer() }
+            { typeof(object), new ObjectSerializer() },
+            { typeof(byte[]), new ByteArraySerializer() }
         });
 
         /// <summary>

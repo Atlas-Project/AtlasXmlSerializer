@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ArgumentCheck.cs" />
     <Compile Include="ByteArrayHelper.cs" />
+    <Compile Include="ByteArraySerializationType.cs" />
     <Compile Include="CachedTypeResolver.cs" />
     <Compile Include="IXmlSerializable.cs" />
     <Compile Include="IXmlSerializer.cs" />
@@ -54,6 +55,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SerializationAttributeOverrides.cs" />
+    <Compile Include="SerializationCompiler\ByteArraySerializer.cs" />
     <Compile Include="SerializationCompiler\Compiler.cs" />
     <Compile Include="SerializationCompiler\CompilerPropertyInfo.cs" />
     <Compile Include="SerializationCompiler\CompilerTypeInfo.cs" />
