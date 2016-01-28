@@ -117,7 +117,7 @@ namespace Atlas.Xml
             using (var reader = XmlReader.Create(new StringReader(xml), DefaultReaderSettings))
             {
                 while (reader.NodeType != XmlNodeType.Element && reader.Read()) ;
-                return SerializerFactory<T>.Instance.Deserialize(reader, SerializerFactory<T>.Instance.DefaultSerializationOptions);
+                return SerializerFactory<T>.Instance.Deserialize(reader, options);
             }
         }
 

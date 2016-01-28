@@ -39,7 +39,7 @@ namespace Atlas
                 throw new ArgumentNullException(argumentName);
 
             if (Nullable.Equals(argument, default(T)))
-                throw new ArgumentException(Resources.ArgumentMustNotBeEmptyMessage, argumentName);
+                throw new ArgumentException(Resources.ArgumentMustNotBeEmptyExceptionMessage, argumentName);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Atlas
         public static void NotEmpty<T>(T argument, string argumentName) where T : struct
         {
             if (Equals(argument, default(T)))
-                throw new ArgumentException(Resources.ArgumentMustNotBeEmptyMessage, argumentName);
+                throw new ArgumentException(Resources.ArgumentMustNotBeEmptyExceptionMessage, argumentName);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Atlas
                 throw new ArgumentNullException(argumentName);
 
             if (argument.Length == 0)
-                throw new ArgumentException(Resources.ArgumentMustNotBeEmptyMessage, argumentName);
+                throw new ArgumentException(Resources.ArgumentMustNotBeEmptyExceptionMessage, argumentName);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Atlas
                 throw new ArgumentNullException(argumentName);
 
             if (!argument.Any())
-                throw new ArgumentException(Resources.ArgumentMustNotBeEmptyMessage, argumentName);
+                throw new ArgumentException(Resources.ArgumentMustNotBeEmptyExceptionMessage, argumentName);
         }
 
         /// <summary>
@@ -104,9 +104,9 @@ namespace Atlas
             if (!condition)
             {
                 if (formatParameters == null || message == null)
-                    throw new ArgumentException(message ?? Resources.ArgumentValidationFailedMessage);
+                    throw new ArgumentException(message ?? Resources.ArgumentValidationFailedExceptionMessage);
                 else
-                    throw new ArgumentException(string.Format(message ?? Resources.ArgumentValidationFailedMessage, formatParameters));
+                    throw new ArgumentException(string.Format(message ?? Resources.ArgumentValidationFailedExceptionMessage, formatParameters));
             }
         }
 
